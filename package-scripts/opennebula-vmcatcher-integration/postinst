@@ -1,0 +1,96 @@
+#!/bin/bash
+#
+# Perform necessary opennebula-vmcatcher-integration setup steps
+# after package is installed.
+#
+
+PROGNAME=$(basename $0)
+INSTALLER_DIR=$(dirname $0)
+CRON_SCRIPT=/opt/opennebula-vmcatcher-integration/bin/opennebula-vmcatcher-integration
+CRON_JOB=/opt/opennebula-vmcatcher-integration/etc/opennebula-vmcatcher-integration-cronjob
+USAGE="usage: $0"
+
+NIFTY=nifty
+NIFTY_USER=${NIFTY}
+NIFTY_CONF="/etc/${NIFTY}/${NIFTY}.yml"
+NIFTY_DEFAULT_APPLIANCE_DIR="/var/spool/${NIFTY}/appliances"
+
+ITCHY=itchy
+ITCHY_USER=${ITCHY}
+ITCHY_GROUP=${ITCHY}
+ITCHY_CONF="/etc/${ITCHY}/${ITCHY}.yml"
+ITCHY_DEFAULT_APPLIANCE_DIR="/var/spool/${ITCHY}/descriptors"
+
+VMCATCHER=vmcatcher
+VMCATCHER_USER=${VMCATCHER}
+VMCATCHER_GROUP=${VMCATCHER}
+
+APPLIANCES_DIR="/var/spool/${ITCHY}/descriptors"
+
+function error_exit
+{
+  echo "${PROGNAME}: ${1:-"Unknown Error"}" 1>&2
+  exit 1
+}
+
+echo "Setting user groups and privileges..."
+
+# set groups for itchy
+id -u ${ITCHY_USER} > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+  grep -q "^${VMCATCHER_GROUP}:" /etc/group > /dev/null 2>&1
+  if [ "$?" -ne "0" ]; then
+    id -u ${VMCATCHER_USER} > /dev/null 2>&1
+    if [ "$?" -eq "0" ]; then
+      groupadd -f ${VMCATCHER_GROUP} || error_exit "Cannot add group '${VMCATCHER_GROUP}'"
+    else
+      useradd --system --shell /bin/false ${VMCATCHER_USER} || error_exit "Cannot add user '${VMCATCHER_USER}'"
+      usermod -L ${VMCATCHER_USER} || error_exit "Cannot lock user '${VMCATCHER_USER}'"
+    fi
+  fi
+
+  usermod -aG ${VMCATCHER_GROUP} ${ITCHY_USER} || error_exit "Cannot add user '${ITCHY_USER}' to group '${VMCATCHER_GROUP}'"
+else
+  error_exit "Cannot find user '${ITCHY_USER}'"
+fi
+
+# set groups for nifty
+id -u ${NIFTY_USER} > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+  grep -q "^${ITCHY_GROUP}:" /etc/group > /dev/null 2>&1
+  if [ "$?" -eq "0" ]; then
+    usermod -aG ${ITCHY_GROUP} ${NIFTY_USER} || error_exit "Cannot add user '${NIFTY_USER}' to group '${ITCHY_GROUP}'"
+  else
+    error_exit "Cannot find group '${ITCHY_GROUP}'"
+  fi
+else
+  error_exit "Cannot find user '${NIFTY_USER}'"
+fi
+
+echo "Setting configuration..."
+# set itchy configuration
+grep -q ${ITCHY_DEFAULT_APPLIANCE_DIR} ${ITCHY_CONF} > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+  sed -i "s|${ITCHY_DEFAULT_APPLIANCE_DIR}|${APPLIANCES_DIR}|g" ${ITCHY_CONF} || error_exit "Could not set appliance dir for ${ITCHY_CONF}"
+else
+  echo "${ITCHY_CONF} has already been changed. Please do the modification manually"
+fi
+
+# set nifty configuration
+grep -q ${NIFTY_DEFAULT_APPLIANCE_DIR} ${NIFTY_CONF} > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+  sed -i "s|${NIFTY_DEFAULT_APPLIANCE_DIR}|${APPLIANCES_DIR}|g" ${NIFTY_CONF} || error_exit "Could not set appliance dir for ${NIFTY_CONF}"
+else
+  echo "${NIFTY_CONF} has already been changed. Please do the modification manually"
+fi
+
+# adding execution flag to cronjob script
+chmod +x ${CRON_SCRIPT} || error_exit "Could not set execution flag for ${CRON_SCRIPT}"
+
+# setup cronjob
+echo "Registering a cron job"
+cp ${CRON_JOB} /etc/cron.d/ || error_exit "Could not register cron job '${CRON_JOB}'"
+
+echo "Thank you for installing opennebula-vmcatcher-integration!"
+
+exit 0
