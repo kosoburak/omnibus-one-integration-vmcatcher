@@ -8,6 +8,7 @@ PROGNAME=$(basename $0)
 INSTALLER_DIR=$(dirname $0)
 CRON_SCRIPT=/opt/opennebula-vmcatcher-integration/bin/opennebula-vmcatcher-integration
 CRON_JOB=/opt/opennebula-vmcatcher-integration/etc/opennebula-vmcatcher-integration-cronjob
+VMCATCHER_ENV=/opt/opennebula-vmcatcher-integration/etc/vmcatcher-env
 USAGE="usage: $0"
 
 NIFTY=nifty
@@ -24,6 +25,7 @@ ITCHY_DEFAULT_APPLIANCE_DIR="/var/spool/${ITCHY}/descriptors"
 VMCATCHER=vmcatcher
 VMCATCHER_USER=${VMCATCHER}
 VMCATCHER_GROUP=${VMCATCHER}
+VMCATCHER_CONF_DIR="/etc/${VMCATCHER}/"
 
 APPLIANCES_DIR="/var/spool/${ITCHY}/descriptors"
 
@@ -83,6 +85,10 @@ if [ "$?" -eq "0" ]; then
 else
   echo "${NIFTY_CONF} has already been changed. Please do the modification manually"
 fi
+
+# adding vmcatcher environment file
+mkdir -p ${VMCATCHER_CONF_DIR} || error_exit "Could not create vmcatcher configuration directory ${VMCATCHER_CONF_DIR}"
+cp -n ${VMCATCHER_ENV} ${VMCATCHER_CONF_DIR} || error_exit "Could not copy vmcatcher configuration file ${VMCATCHER_ENV}"
 
 # adding execution flag to cronjob script
 chmod +x ${CRON_SCRIPT} || error_exit "Could not set execution flag for ${CRON_SCRIPT}"
