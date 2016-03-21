@@ -3,4 +3,4 @@
 # This script sets required enviroment variables for vmcatcher
 export VMCATCHER_RDBMS="sqlite:////var/lib/vmcatcher/vmcatcher.db"
 export VMCATCHER_CACHE_DIR_CACHE="/var/lib/vmcatcher/cache/"
-export VMCATCHER_CACHE_EVENT="/opt/itchy/bin/itchy archive -m /var/spool/itchy/metadata"
+export VMCATCHER_CACHE_EVENT="/opt/itchy/bin/itchy archive"
