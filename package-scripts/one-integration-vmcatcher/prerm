@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Perform necessary opennebula-vmcatcher-integration setup steps
+# Perform necessary one-integration-vmcatcher setup steps
 # prior to removing package.
 #
 

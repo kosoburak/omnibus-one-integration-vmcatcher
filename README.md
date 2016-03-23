@@ -1,7 +1,7 @@
-opennebula-vmcatcher-integration Omnibus project
+one-integration-vmcatcher Omnibus project
 ========================
 This project creates full-stack platform-specific packages for
-`opennebula-vmcatcher-integration`!
+`one-integration-vmcatcher`!
 
 Installation
 ------------
@@ -19,7 +19,7 @@ Usage
 You create a platform-specific package using the `build project` command:
 
 ```shell
-$ bin/omnibus build opennebula-vmcatcher-integration
+$ bin/omnibus build one-integration-vmcatcher
 ```
 
 The platform/architecture type of the package created will match the platform
@@ -33,15 +33,15 @@ You can clean up all temporary files generated during the build process with
 the `clean` command:
 
 ```shell
-$ bin/omnibus clean opennebula-vmcatcher-integration
+$ bin/omnibus clean one-integration-vmcatcher
 ```
 
 Adding the `--purge` purge option removes __ALL__ files generated during the
-build including the project install directory (`/opt/opennebula-vmcatcher-integration`) and
+build including the project install directory (`/opt/one-integration-vmcatcher`) and
 the package cache directory (`/var/cache/omnibus/pkg`):
 
 ```shell
-$ bin/omnibus clean opennebula-vmcatcher-integration --purge
+$ bin/omnibus clean one-integration-vmcatcher --purge
 ```
 
 ### Publish
@@ -93,10 +93,10 @@ section:
 
 ```shell
 $ bundle exec kitchen login ubuntu-1204
-[vagrant@ubuntu...] $ cd opennebula-vmcatcher-integration
+[vagrant@ubuntu...] $ cd one-integration-vmcatcher
 [vagrant@ubuntu...] $ bundle install
 [vagrant@ubuntu...] $ ...
-[vagrant@ubuntu...] $ bin/omnibus build opennebula-vmcatcher-integration
+[vagrant@ubuntu...] $ bin/omnibus build one-integration-vmcatcher
 ```
 
 For a complete list of all commands and platforms, run `kitchen list` or

@@ -1,4 +1,4 @@
-project_name = 'opennebula-vmcatcher-integration'
+project_name = 'one-integration-vmcatcher'
 home_dir = '/home/vagrant'
 work_dir = "#{home_dir}/#{project_name}"
 build_env = { "HOME" => home_dir }

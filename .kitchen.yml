@@ -4,7 +4,7 @@ driver:
     cpus: 2
     memory: 4096
   synced_folders:
-    - ['.', '/home/vagrant/opennebula-vmcatcher-integration']
+    - ['.', '/home/vagrant/one-integration-vmcatcher']
 
 provisioner:
   name: chef_solo
@@ -31,5 +31,5 @@ suites:
     attributes:
       omnibus:
         build_user:  vagrant
-        build_dir:   /home/vagrant/opennebula-vmcatcher-integration
-        install_dir: /opt/opennebula-vmcatcher-integration
+        build_dir:   /home/vagrant/one-integration-vmcatcher
+        install_dir: /opt/one-integration-vmcatcher

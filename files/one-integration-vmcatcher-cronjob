@@ -3,4 +3,4 @@
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 MAILTO=root
-0 */2 * * * root ! /opt/opennebula-vmcatcher-integration/bin/opennebula-vmcatcher-integration
+0 */2 * * * root ! /opt/one-integration-vmcatcher/bin/one-integration-vmcatcher

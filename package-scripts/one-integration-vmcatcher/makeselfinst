@@ -1,11 +1,11 @@
 #!/bin/bash
 #
-# Install the opennebula-vmcatcher-integration
+# Install the one-integration-vmcatcher
 #
 
 PROGNAME=`basename $0`
 INSTALLER_DIR=`dirname $0`
-DEST_DIR=/opt/opennebula-vmcatcher-integration
+DEST_DIR=/opt/one-integration-vmcatcher
 BIN_DIR=/usr/bin
 USAGE="usage: $0"
 

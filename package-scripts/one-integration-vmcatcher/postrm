@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# Perform necessary opennebula-vmcatcher-integration removal steps
+# Perform necessary one-integration-vmcatcher removal steps
 # after package is uninstalled.
 #
 
 PROGNAME=`basename $0`
 INSTALLER_DIR=`dirname $0`
-DEST_DIR=/opt/opennebula-vmcatcher-integration
+DEST_DIR=/opt/one-integration-vmcatcher
 BIN_DIR=/usr/bin
 USAGE="usage: $0"
 
@@ -21,10 +21,10 @@ if [ "X$1" = "Xupgrade" ] || [ "X$1" = "X1" ]; then
   exit 0
 fi
 
-if [ -L "$BIN_DIR/opennebula-vmcatcher-integration-initial-configuration" ]; then
-  rm $BIN_DIR/opennebula-vmcatcher-integration-initial-configuration
+if [ -L "$BIN_DIR/one-integration-vmcatcher-initial-configuration" ]; then
+  rm $BIN_DIR/one-integration-vmcatcher-initial-configuration
 fi
 
-echo "opennebula-vmcatcher-integration has been uninstalled!"
+echo "one-integration-vmcatcher has been uninstalled!"
 
 exit 0

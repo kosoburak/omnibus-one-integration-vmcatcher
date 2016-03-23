@@ -1,10 +1,10 @@
-name "opennebula-vmcatcher-integration"
+name "one-integration-vmcatcher"
 maintainer "Michal Kimle <kimle@cesnet.cz>"
-homepage "https://github.com/CESNET/omnibus-opennebula-vmcatcher-integration"
+homepage "https://github.com/CESNET/omnibus-one-integration-vmcatcher"
 description "Set of scripts integrating OpenNebula and NIFTY with vmcatcher and ITCHY"
 
-# Defaults to C:/opennebula-vmcatcher-integration on Windows
-# and /opt/opennebula-vmcatcher-integration on all other platforms
+# Defaults to C:/one-integration-vmcatcher on Windows
+# and /opt/one-integration-vmcatcher on all other platforms
 install_dir     "#{default_root}/#{name}"
 build_version   "0.1.0"
 build_iteration 1
@@ -12,8 +12,8 @@ build_iteration 1
 # creates required build directories
 dependency 'preparation'
 
-# opennebula-vmcatcher-integration dependencies/components
-dependency 'opennebula-vmcatcher-integration'
+# one-integration-vmcatcher dependencies/components
+dependency 'one-integration-vmcatcher'
 
 # version manifest file
 dependency 'version-manifest'

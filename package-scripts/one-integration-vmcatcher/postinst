@@ -1,14 +1,14 @@
 #!/bin/bash
 #
-# Perform necessary opennebula-vmcatcher-integration setup steps
+# Perform necessary one-integration-vmcatcher setup steps
 # after package is installed.
 #
 
 PROGNAME=$(basename $0)
 INSTALLER_DIR=$(dirname $0)
-CRON_SCRIPT=/opt/opennebula-vmcatcher-integration/bin/opennebula-vmcatcher-integration
-CRON_JOB=/opt/opennebula-vmcatcher-integration/etc/opennebula-vmcatcher-integration-cronjob
-VMCATCHER_ENV=/opt/opennebula-vmcatcher-integration/etc/vmcatcher-env
+CRON_SCRIPT=/opt/one-integration-vmcatcher/bin/one-integration-vmcatcher
+CRON_JOB=/opt/one-integration-vmcatcher/etc/one-integration-vmcatcher-cronjob
+VMCATCHER_ENV=/opt/one-integration-vmcatcher/etc/vmcatcher-env
 USAGE="usage: $0"
 
 NIFTY=nifty
@@ -97,6 +97,6 @@ chmod +x ${CRON_SCRIPT} || error_exit "Could not set execution flag for ${CRON_S
 echo "Registering a cron job"
 cp ${CRON_JOB} /etc/cron.d/ || error_exit "Could not register cron job '${CRON_JOB}'"
 
-echo "Thank you for installing opennebula-vmcatcher-integration!"
+echo "Thank you for installing one-integration-vmcatcher!"
 
 exit 0
