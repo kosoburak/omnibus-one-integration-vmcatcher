@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /etc/vmcatcher/vmcatcher_env.sh
+source /etc/vmcatcher/vmcatcher-env
 
 PROGNAME=${0##*/}
 lockfile=/var/tmp/comfy_family.lock
@@ -10,7 +10,7 @@ vmcatcher_command=vmcatcher_cache
 nifty_user=nifty
 nifty_command="nifty opennebula"
 itchy_user=itchy
-itchy_command="itchy process -o /data/nifty/disks -d"
+itchy_command="itchy process"
 
 function clean_lock {
   rm -f "$lockfile"
