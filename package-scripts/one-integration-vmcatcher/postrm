@@ -8,6 +8,7 @@ PROGNAME=`basename $0`
 INSTALLER_DIR=`dirname $0`
 DEST_DIR=/opt/one-integration-vmcatcher
 BIN_DIR=/usr/bin
+CRON_JOB=/etc/cron.d/one-integration-vmcatcher-cronjob
 USAGE="usage: $0"
 
 function error_exit
@@ -21,8 +22,8 @@ if [ "X$1" = "Xupgrade" ] || [ "X$1" = "X1" ]; then
   exit 0
 fi
 
-if [ -L "$BIN_DIR/one-integration-vmcatcher-initial-configuration" ]; then
-  rm $BIN_DIR/one-integration-vmcatcher-initial-configuration
+if [ -f ${CRON_JOB} ]; then
+  rm ${CRON_JOB}
 fi
 
 echo "one-integration-vmcatcher has been uninstalled!"
