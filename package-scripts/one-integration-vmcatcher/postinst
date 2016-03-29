@@ -22,6 +22,7 @@ ITCHY_USER=${ITCHY}
 ITCHY_GROUP=${ITCHY}
 ITCHY_CONF="/etc/${ITCHY}/${ITCHY}.yml"
 ITCHY_DEFAULT_APPLIANCE_DIR="/var/spool/${ITCHY}/descriptors"
+ITCHY_DEFAULT_OUTPUT_DIR="/var/spool/${ITCHY}/output"
 
 VMCATCHER=vmcatcher
 VMCATCHER_USER=${VMCATCHER}
@@ -71,8 +72,16 @@ echo "Setting configuration..."
 grep -q ${ITCHY_DEFAULT_APPLIANCE_DIR} ${ITCHY_CONF} > /dev/null 2>&1
 if [ "$?" -eq "0" ]; then
   sed -i "s|${ITCHY_DEFAULT_APPLIANCE_DIR}|${APPLIANCES_DIR}|g" ${ITCHY_CONF} || error_exit "Could not set appliance dir for '${ITCHY_CONF}'"
+  chmod 775 ${ITCHY_DEFAULT_APPLIANCE_DIR} || error_exit "Could not chmod on '${ITCHY_DEFAULT_APPLIANCE_DIR}'"
 else
-  echo "${ITCHY_CONF} has already been changed. Please do the modification manually"
+  echo "${ITCHY_CONF} has already been changed. Please do the modification manually and make sure the group has write rights on appliance directory."
+fi
+
+grep -q ${ITCHY_DEFAULT_OUTPUT_DIR} ${ITCHY_CONF} > /dev/null 2>&1
+if [ "$?" -eq "0" ]; then
+  chmod 775 ${ITCHY_DEFAULT_OUTPUT_DIR} || error_exit "Could not chmod on '${ITCHY_DEFAULT_OUTPUT_DIR}'"
+else
+  echo "${ITCHY_CONF} has already been changed. Please make sure the group has write rights on output directory."
 fi
 
 # set nifty configuration
@@ -80,7 +89,7 @@ grep -q ${NIFTY_DEFAULT_APPLIANCE_DIR} ${NIFTY_CONF} > /dev/null 2>&1
 if [ "$?" -eq "0" ]; then
   sed -i "s|${NIFTY_DEFAULT_APPLIANCE_DIR}|${APPLIANCES_DIR}|g" ${NIFTY_CONF} || error_exit "Could not set appliance dir for '${NIFTY_CONF}'"
 else
-  echo "${NIFTY_CONF} has already been changed. Please do the modification manually"
+  echo "${NIFTY_CONF} has already been changed. Please do the modification manually."
 fi
 
 # adding vmcatcher environment file
