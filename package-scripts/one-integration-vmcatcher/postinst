@@ -53,18 +53,18 @@ fi
 
 usermod -aG ${ITCHY_GROUP} ${VMCATCHER_USER} || error_exit "Cannot add user '${VMCATCHER_USER}' to group '${ITCHY_GROUP}'"
 
-# set groups for itchy
-id -u ${ITCHY_USER} > /dev/null 2>&1
+# set groups for nifty
+id -u ${NIFTY_USER} > /dev/null 2>&1
 if [ "$?" -ne "0" ]; then
-  error_exit "Cannot find user '${ITCHY_USER}'"
+  error_exit "Cannot find user '${NIFTY_USER}'"
 fi
 
-grep -q "^${NIFTY_GROUP}:" /etc/group > /dev/null 2>&1
+grep -q "^${ITCHY_GROUP}:" /etc/group > /dev/null 2>&1
 if [ "$?" -ne "0" ]; then
-  error_exit "Cannot find group '${NIFTY_GROUP}'"
+  error_exit "Cannot find group '${ITCHY_GROUP}'"
 fi
 
-usermod -aG ${NIFTY_GROUP} ${ITCHY_USER} || error_exit "Cannot add user '${ITCHY_USER}' to group '${NIFTY_GROUP}'"
+usermod -aG ${ITCHY_GROUP} ${NIFTY_USER} || error_exit "Cannot add user '${NIFTY_USER}' to group '${ITCHY_GROUP}'"
 
 echo "Setting configuration..."
 # set itchy configuration
