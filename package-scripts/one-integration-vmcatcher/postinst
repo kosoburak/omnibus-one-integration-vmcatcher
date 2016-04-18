@@ -6,9 +6,15 @@
 
 PROGNAME=$(basename $0)
 INSTALLER_DIR=$(dirname $0)
-CRON_SCRIPT=/opt/one-integration-vmcatcher/bin/one-integration-vmcatcher
-CRON_JOB=/opt/one-integration-vmcatcher/etc/one-integration-vmcatcher-cronjob
-VMCATCHER_ENV=/opt/one-integration-vmcatcher/etc/vmcatcher-env
+BASE_PATH=/opt/one-integration-vmcatcher
+CRON_SCRIPT=/bin/one-integration-vmcatcher
+CRON_JOB=/etc/cron.d/one-integration-vmcatcher
+INIT_SCRIPT=/etc/init.d/one-integration-vmcatcher-cron
+VMCATCHER_ENV=/etc/vmcatcher/vmcatcher-env
+ORIGINAL_CRON_SCRIPT="${BASE_PATH}/${CRON_SCRIPT}"
+ORIGINAL_CRON_JOB="${BASE_PATH}/${CRON_JOB}"
+ORIGINAL_INIT_SCRIPT="${BASE_PATH}/${INIT_SCRIPT}"
+ORIGINAL_VMCATCHER_ENV="${BASE_PATH}/${VMCATCHER_ENV}"
 USAGE="usage: $0"
 
 NIFTY=nifty
@@ -77,15 +83,20 @@ fi
 
 # adding vmcatcher environment file
 mkdir -p ${VMCATCHER_CONF_DIR} || error_exit "Could not create vmcatcher configuration directory '${VMCATCHER_CONF_DIR}'"
-chmod -x ${VMCATCHER_ENV} || error_exit "Could not remove execution flag from vmcatcher configuration file '${VMCATCHER_ENV}'"
-cp -n ${VMCATCHER_ENV} ${VMCATCHER_CONF_DIR} || error_exit "Could not copy vmcatcher configuration file '${VMCATCHER_ENV}'"
+chmod -x ${ORIGINAL_VMCATCHER_ENV} || error_exit "Could not remove execution flag from vmcatcher configuration file '${ORIGINAL_VMCATCHER_ENV}'"
+cp -n ${ORIGINAL_VMCATCHER_ENV} ${VMCATCHER_ENV} || error_exit "Could not copy vmcatcher configuration file '${ORIGINAL_VMCATCHER_ENV}'"
 
 # adding execution flag to cronjob script
-chmod +x ${CRON_SCRIPT} || error_exit "Could not set execution flag for '${CRON_SCRIPT}'"
+chmod +x ${ORIGINAL_CRON_SCRIPT} || error_exit "Could not set execution flag for '${ORIGINAL_CRON_SCRIPT}'"
 
 # setup cronjob
 echo "Registering a cron job"
-cp ${CRON_JOB} /etc/cron.d/ || error_exit "Could not register cron job '${CRON_JOB}'"
+cp ${ORIGINAL_CRON_JOB} ${CRON_JOB} || error_exit "Could not register cron job '${ORIGINAL_CRON_JOB}'"
+
+# setup init script
+echo "Registering an init script"
+cp ${ORIGINAL_INIT_SCRIPT} ${INIT_SCRIPT} || error_exit "Could not register init script '${ORIGINAL_INIT_SCRIPT}'"
+chmod +x
 
 echo "Thank you for installing one-integration-vmcatcher!"
 

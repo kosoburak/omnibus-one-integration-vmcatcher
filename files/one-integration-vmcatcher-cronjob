@@ -1,6 +1,0 @@
-# Cron job running by default every 24 hours
-# vmcatcher + itchy + nifty suite
-SHELL=/bin/bash
-PATH=/sbin:/bin:/usr/sbin:/usr/bin
-MAILTO=root
-0 */2 * * * root ! /opt/one-integration-vmcatcher/bin/one-integration-vmcatcher

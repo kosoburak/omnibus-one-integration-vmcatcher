@@ -6,7 +6,7 @@ description "Set of scripts integrating OpenNebula and NIFTY with vmcatcher and 
 # Defaults to C:/one-integration-vmcatcher on Windows
 # and /opt/one-integration-vmcatcher on all other platforms
 install_dir     "#{default_root}/#{name}"
-build_version   "0.1.0"
+build_version   "0.1.1"
 build_iteration 1
 
 # creates required build directories
