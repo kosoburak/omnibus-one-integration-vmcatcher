@@ -1,6 +1,21 @@
 #!/bin/bash
 
-source /etc/one-integration/vmcatcher-env
+VMCATCHER_ENV=/etc/one-integration/vmcatcher-env
+
+if [ ! -f ${VMCATCHER_ENV} ]; then
+  cat <<EOM
+Missing /etc/one-integration/vmcatcher-env configuration file. Please create it.
+File has to contain valid vmcatcher environment variables setting, for example:
+
+export VMCATCHER_RDBMS="sqlite:////var/lib/vmcatcher/vmcatcher.db"
+export VMCATCHER_CACHE_DIR_CACHE="/var/lib/vmcatcher/cache/"
+export VMCATCHER_CACHE_EVENT="/opt/itchy/bin/itchy archive"
+EOM
+
+  exit 1
+fi
+
+source ${VMCATCHER_ENV}
 
 PROGNAME=${0##*/}
 lockfile=/var/tmp/comfy_family.lock
@@ -26,12 +41,12 @@ if ( set -o noclobber; echo "$$" > "$lockfile") 2> /dev/null; then
 
   trap clean_lock INT TERM EXIT
 
-  error=$(su $vmcatcher_user -s /bin/bash -c "source /etc/one-integration/vmcatcher-env && $vmcatcher_setup")
+  error=$(su $vmcatcher_user -s /bin/bash -c "source ${VMCATCHER_ENV} && $vmcatcher_setup")
   if [ $? -ne 0 ] ; then
     error_exit "$error"
   fi
 
-  error=$(su $vmcatcher_user -s /bin/bash -c "source /etc/one-integration/vmcatcher-env && $vmcatcher_command")
+  error=$(su $vmcatcher_user -s /bin/bash -c "source ${VMCATCHER_ENV} && $vmcatcher_command")
   if [ $? -ne 0 ] ; then
     error_exit "$error"
   fi

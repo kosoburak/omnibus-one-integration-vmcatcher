@@ -8,7 +8,8 @@ PROGNAME=`basename $0`
 INSTALLER_DIR=`dirname $0`
 DEST_DIR=/opt/one-integration-vmcatcher
 BIN_DIR=/usr/bin
-CRON_JOB=/etc/cron.d/one-integration-vmcatcher-cronjob
+CRON_JOB=/etc/cron.d/one-integration-vmcatcher
+INIT_SCRIPT=/etc/init.d/one-integration-vmcatcher-cron
 USAGE="usage: $0"
 
 function error_exit
@@ -24,6 +25,10 @@ fi
 
 if [ -f ${CRON_JOB} ]; then
   rm ${CRON_JOB}
+fi
+
+if [ -f ${INIT_SCRIPT} ]; then
+  rm ${INIT_SCRIPT}
 fi
 
 echo "one-integration-vmcatcher has been uninstalled!"
