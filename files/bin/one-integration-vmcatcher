@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /etc/vmcatcher/vmcatcher-env
+source /etc/one-integration/vmcatcher-env
 
 PROGNAME=${0##*/}
 lockfile=/var/tmp/comfy_family.lock
@@ -26,12 +26,12 @@ if ( set -o noclobber; echo "$$" > "$lockfile") 2> /dev/null; then
 
   trap clean_lock INT TERM EXIT
 
-  error=$(su $vmcatcher_user -s /bin/bash -c "source /etc/vmcatcher/vmcatcher-env && $vmcatcher_setup")
+  error=$(su $vmcatcher_user -s /bin/bash -c "source /etc/one-integration/vmcatcher-env && $vmcatcher_setup")
   if [ $? -ne 0 ] ; then
     error_exit "$error"
   fi
 
-  error=$(su $vmcatcher_user -s /bin/bash -c "source /etc/vmcatcher/vmcatcher-env && $vmcatcher_command")
+  error=$(su $vmcatcher_user -s /bin/bash -c "source /etc/one-integration/vmcatcher-env && $vmcatcher_command")
   if [ $? -ne 0 ] ; then
     error_exit "$error"
   fi
