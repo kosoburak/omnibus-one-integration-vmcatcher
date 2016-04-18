@@ -6,9 +6,13 @@
 
 PROGNAME=$(basename $0)
 INSTALLER_DIR=$(dirname $0)
-CRON_SCRIPT=/opt/one-integration-vmcatcher/bin/one-integration-vmcatcher
-CRON_JOB=/opt/one-integration-vmcatcher/etc/one-integration-vmcatcher-cronjob
-VMCATCHER_ENV=/opt/one-integration-vmcatcher/etc/vmcatcher-env
+BASE_PATH=/opt/one-integration-vmcatcher
+CRON_SCRIPT=/bin/one-integration-vmcatcher
+CRON_JOB=/etc/cron.d/one-integration-vmcatcher
+INIT_SCRIPT=/etc/init.d/one-integration-vmcatcher-cron
+ORIGINAL_CRON_SCRIPT="${BASE_PATH}/${CRON_SCRIPT}"
+ORIGINAL_CRON_JOB="${BASE_PATH}/${CRON_JOB}"
+ORIGINAL_INIT_SCRIPT="${BASE_PATH}/${INIT_SCRIPT}"
 USAGE="usage: $0"
 
 NIFTY=nifty
@@ -24,10 +28,9 @@ ITCHY_CONF="/etc/${ITCHY}/${ITCHY}.yml"
 ITCHY_DEFAULT_APPLIANCE_DIR="/var/spool/${ITCHY}/descriptors"
 ITCHY_DEFAULT_OUTPUT_DIR="/var/spool/${ITCHY}/output"
 
-VMCATCHER=vmcatcher
-VMCATCHER_CONF_DIR="/etc/${VMCATCHER}/"
-
 APPLIANCES_DIR="/var/spool/${ITCHY}/descriptors"
+
+ONE_INTEGRATION_DIR="/etc/one-integration"
 
 function error_exit
 {
@@ -75,16 +78,20 @@ else
   echo "${NIFTY_CONF} has already been changed. Please do the modification manually."
 fi
 
-# adding vmcatcher environment file
-mkdir -p ${VMCATCHER_CONF_DIR} || error_exit "Could not create vmcatcher configuration directory '${VMCATCHER_CONF_DIR}'"
-cp -n ${VMCATCHER_ENV} ${VMCATCHER_CONF_DIR} || error_exit "Could not copy vmcatcher configuration file '${VMCATCHER_ENV}'"
+# adding one-integration configuration directory
+mkdir -p ${ONE_INTEGRATION_DIR} || error_exit "Could not create one-integration configuration directory '${ONE_INTEGRATION_DIR}'"
 
 # adding execution flag to cronjob script
-chmod +x ${CRON_SCRIPT} || error_exit "Could not set execution flag for '${CRON_SCRIPT}'"
+chmod +x ${ORIGINAL_CRON_SCRIPT} || error_exit "Could not set execution flag for '${ORIGINAL_CRON_SCRIPT}'"
 
 # setup cronjob
 echo "Registering a cron job"
-cp ${CRON_JOB} /etc/cron.d/ || error_exit "Could not register cron job '${CRON_JOB}'"
+cp ${ORIGINAL_CRON_JOB} ${CRON_JOB} || error_exit "Could not register cron job '${ORIGINAL_CRON_JOB}'"
+
+# setup init script
+echo "Registering an init script"
+cp ${ORIGINAL_INIT_SCRIPT} ${INIT_SCRIPT} || error_exit "Could not register init script '${ORIGINAL_INIT_SCRIPT}'"
+chmod +x ${INIT_SCRIPT}
 
 echo "Thank you for installing one-integration-vmcatcher!"
 
