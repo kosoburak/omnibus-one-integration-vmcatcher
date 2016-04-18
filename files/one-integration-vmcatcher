@@ -38,10 +38,9 @@ if ( set -o noclobber; echo "$$" > "$lockfile") 2> /dev/null; then
 
   error=$(su $itchy_user -s /bin/bash -c "$itchy_command")
   if [ $? -ne 0 ] ; then
-    echo "$error"
     error_exit "$error"
   fi
-      
+
   error=$(su $nifty_user -s /bin/bash -c "$nifty_command")
   if [ $? -ne 0 ] ; then
     error_exit "$error"
