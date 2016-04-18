@@ -77,6 +77,7 @@ fi
 
 # adding vmcatcher environment file
 mkdir -p ${VMCATCHER_CONF_DIR} || error_exit "Could not create vmcatcher configuration directory '${VMCATCHER_CONF_DIR}'"
+chmod -x ${VMCATCHER_ENV} || error_exit "Could not remove execution flag from vmcatcher configuration file '${VMCATCHER_ENV}'"
 cp -n ${VMCATCHER_ENV} ${VMCATCHER_CONF_DIR} || error_exit "Could not copy vmcatcher configuration file '${VMCATCHER_ENV}'"
 
 # adding execution flag to cronjob script
