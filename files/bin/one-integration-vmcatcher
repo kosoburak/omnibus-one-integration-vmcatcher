@@ -18,7 +18,7 @@ fi
 source ${VMCATCHER_ENV}
 
 PROGNAME=${0##*/}
-lockfile=/var/tmp/comfy_family.lock
+lockfile=/var/lock/comfy_family.lock
 vmcatcher_user=vmcatcher
 vmcatcher_setup="vmcatcher_subscribe -U"
 vmcatcher_command=vmcatcher_cache
